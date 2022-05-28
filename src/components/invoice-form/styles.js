@@ -13,7 +13,10 @@ const InvoiceUpperForm = styled.div`
   background: #fff;
   border: 1px solid #ccc;
 `;
-const InvoiceBottomBtn = styled.div``;
+const InvoiceBottomBtn = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 const InvoiceFlex = styled.div`
   display: flex;
   border-bottom: 1px solid #ccc;
@@ -166,6 +169,19 @@ const TotalAmount = styled.div`
     width: 32%;
   }
 `;
+const DownLoadButton = styled.button`
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 24px;
+  color: white;
+  cursor: pointer;
+  background-color: #009e74;
+  border: 1px solid #10806f;
+  box-shadow: 0 1px 0 0 rgb(22 29 37 / 10%),
+    inset 0 1px 0 1px rgb(255 255 255 / 6%);
+  margin: 0 0 48px 0;
+`;
 
 export {
   InvoiceContainer,
@@ -193,4 +209,5 @@ export {
   AddRowBtn,
   TextArea,
   TotalAmount,
+  DownLoadButton,
 };

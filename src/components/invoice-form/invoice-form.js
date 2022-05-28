@@ -24,6 +24,7 @@ import {
   AddRowBtn,
   TextArea,
   TotalAmount,
+  DownLoadButton,
 } from "./styles";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -102,7 +103,16 @@ const InvoiceForm = () => {
                   <InputText type="text" placeholder="Po Number"></InputText>
                 </InputBlock>
               </InvoiceTopLeft>
-              <InvoiceTopRight></InvoiceTopRight>
+              <InvoiceTopRight>
+                <CompanyAddress>
+                  <textarea
+                    value={companyAdd}
+                    onChange={(e) => {
+                      setCompanyAdd(e.target.value);
+                    }}
+                  ></textarea>
+                </CompanyAddress>
+              </InvoiceTopRight>
             </InvoiceFlex>
             <InvoiceFlex className="invoice-table">
               <InvoiceTableBlock>
@@ -195,7 +205,9 @@ const InvoiceForm = () => {
               </InvoiceTopRight>
             </InvoiceFlex>
           </InvoiceUpperForm>
-          <InvoiceBottomBtn></InvoiceBottomBtn>
+          <InvoiceBottomBtn>
+            <DownLoadButton>Download</DownLoadButton>
+          </InvoiceBottomBtn>
         </Form>
       </InvoiceContainer>
     </>
