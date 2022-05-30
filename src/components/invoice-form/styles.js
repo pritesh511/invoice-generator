@@ -133,6 +133,7 @@ const Td = styled.td`
 `;
 const Tr = styled.tr`
   width: 100%;
+  position: relative;
 `;
 const AddRowBtn = styled.button`
   font-size: 14px;
@@ -182,6 +183,19 @@ const DownLoadButton = styled.button`
     inset 0 1px 0 1px rgb(255 255 255 / 6%);
   margin: 0 0 48px 0;
 `;
+const CrossIcon = styled.td`
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    display: block;
+  }
+`;
 
 export {
   InvoiceContainer,
@@ -210,4 +224,5 @@ export {
   TextArea,
   TotalAmount,
   DownLoadButton,
+  CrossIcon,
 };

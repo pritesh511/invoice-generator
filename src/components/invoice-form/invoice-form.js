@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   InvoiceContainer,
   Form,
@@ -25,15 +25,38 @@ import {
   TextArea,
   TotalAmount,
   DownLoadButton,
+  CrossIcon,
 } from "./styles";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const InvoiceForm = () => {
   const [companyName, setCompanyName] = useState("invoice");
-  const [companyLogo, setCompanyLogo] = useState();
+  const [companyLogo, setCompanyLogo] = useState("");
   const [companyAdd, setCompanyAdd] = useState("company_address");
-  const [startDate, setStartDate] = useState(new Date());
+  const [toAdd, setToAdd] = useState("company_address");
+  const [invoiceDate, setInvoicetDate] = useState(new Date());
+  const [dueDate, setDuetDate] = useState(new Date());
+  const [poNumber, setPoNumber] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [qty, setQty] = useState(Number);
+  const [rate, setRate] = useState(Number);
+  // const [amount, setAmount] = useState(Number);
+  const [notes, setNotes] = useState("");
+  const [items, setItems] = useState([
+    { item: "", qty: "", rate: "", amount: "" },
+    { item: "", qty: "", rate: "", amount: "" },
+    { item: "", qty: "", rate: "", amount: "" },
+  ]);
+  const addNewRow = useCallback(() => {
+    const item = { item: "", qty: "", rate: "", amount: "" };
+    setItems([...items, item]);
+  }, [items]);
+  const removeRow = useCallback((index) => {
+    console.log(typeof setItems);
+    setItems([...items.splice(index)]);
+  }, []);
+  console.log("items", items);
   return (
     <>
       <InvoiceContainer>
@@ -86,29 +109,36 @@ const InvoiceForm = () => {
                   <Label>Invoice Date</Label>
                   <DatePicker
                     className="date-picker"
-                    selected={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    selected={invoiceDate}
+                    onChange={(e) => {
+                      setInvoicetDate(e);
+                    }}
                   />
                 </InputBlock>
                 <InputBlock>
                   <Label>Due Date</Label>
                   <DatePicker
                     className="date-picker"
-                    selected={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                    selected={dueDate}
+                    onChange={(e) => setDuetDate(e)}
                   />
                 </InputBlock>
                 <InputBlock>
                   <Label>Po Number</Label>
-                  <InputText type="text" placeholder="Po Number"></InputText>
+                  <InputText
+                    type="text"
+                    placeholder="Po Number"
+                    value={poNumber}
+                    onChange={(e) => setPoNumber(e.target.value)}
+                  ></InputText>
                 </InputBlock>
               </InvoiceTopLeft>
               <InvoiceTopRight>
                 <CompanyAddress>
                   <textarea
-                    value={companyAdd}
+                    value={toAdd}
                     onChange={(e) => {
-                      setCompanyAdd(e.target.value);
+                      setToAdd(e.target.value);
                     }}
                   ></textarea>
                 </CompanyAddress>
@@ -127,63 +157,77 @@ const InvoiceForm = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr>
-                      <Td>1</Td>
-                      <Td>
-                        <Input type="text" placeholder="Item Name" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Qty" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Rate" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Amount" readonly />
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td>2</Td>
-                      <Td>
-                        <Input type="text" placeholder="Item Name" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Qty" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Rate" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Amount" readonly />
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td>3</Td>
-                      <Td>
-                        <Input type="text" placeholder="Item Name" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Qty" />
-                      </Td>
-                      <Td>
-                        <Input type="text" placeholder="Rate" />
-                      </Td>
-                      <Td>
-                        <Input
-                          readOnly={true}
-                          type="text"
-                          placeholder="Amount"
-                        />
-                      </Td>
-                    </Tr>
+                    {items?.map((item, index) => {
+                      return (
+                        <>
+                          <Tr key={`Items_Index_${index}`}>
+                            <Td>{index + 1}</Td>
+                            <Td>
+                              <Input
+                                type="text"
+                                placeholder="Item Name"
+                                value={itemName}
+                                onChange={(e) => {
+                                  setItemName(e.target.value);
+                                }}
+                              />
+                            </Td>
+                            <Td>
+                              <Input
+                                type="text"
+                                placeholder="Qty"
+                                value={qty}
+                                onChange={(e) => {
+                                  setQty(e.target.value);
+                                }}
+                              />
+                            </Td>
+                            <Td>
+                              <Input
+                                type="text"
+                                placeholder="Rate"
+                                value={rate}
+                                onChange={(e) => {
+                                  setRate(e.target.value);
+                                }}
+                              />
+                            </Td>
+                            <Td>
+                              <Input
+                                type="text"
+                                placeholder="Amount"
+                                readonly
+                                // value={amount}
+                              />
+                            </Td>
+                            <CrossIcon
+                              onClick={() => {
+                                removeRow(index);
+                              }}
+                            >
+                              {/* <img src="/images/close.svg" alt="icon" /> */}
+                              <span>-</span>
+                            </CrossIcon>
+                          </Tr>
+                        </>
+                      );
+                    })}
                   </Tbody>
                 </InvoiceTable>
-                <AddRowBtn type="button">Add New Row</AddRowBtn>
+                <AddRowBtn type="button" onClick={addNewRow}>
+                  Add New Row
+                </AddRowBtn>
               </InvoiceTableBlock>
             </InvoiceFlex>
             <InvoiceFlex>
               <InvoiceTopLeft>
-                <TextArea placeholder="Notes/Memo" />
+                <TextArea
+                  placeholder="Notes/Memo"
+                  value={notes}
+                  onChange={(e) => {
+                    setNotes(e.target.value);
+                  }}
+                />
               </InvoiceTopLeft>
               <InvoiceTopRight>
                 <InputBlock className="flex-end">
