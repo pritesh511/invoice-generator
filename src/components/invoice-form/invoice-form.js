@@ -38,10 +38,7 @@ const InvoiceForm = () => {
   const [invoiceDate, setInvoicetDate] = useState(new Date());
   const [dueDate, setDuetDate] = useState(new Date());
   const [poNumber, setPoNumber] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [qty, setQty] = useState(Number);
-  const [rate, setRate] = useState(Number);
-  // const [amount, setAmount] = useState(Number);
+  const [subTotal, setSubTotal] = useState(Number);
   const [notes, setNotes] = useState("");
   const [items, setItems] = useState([
     { item: "", qty: "", rate: "", amount: "" },
@@ -52,11 +49,49 @@ const InvoiceForm = () => {
     const item = { item: "", qty: "", rate: "", amount: "" };
     setItems([...items, item]);
   }, [items]);
-  const removeRow = useCallback((index) => {
-    console.log(typeof setItems);
-    setItems([...items.splice(index)]);
-  }, []);
-  console.log("items", items);
+
+  const calculaAmount = useCallback(
+    (index, newItems) => {
+      const qty = Number(newItems[index]?.qty);
+      const rate = Number(newItems[index]?.rate);
+      const amount = qty * rate;
+      newItems[index].amount = amount;
+      setItems(newItems);
+      calculateSubTotal(newItems);
+    },
+    [items]
+  );
+
+  const calculateSubTotal = useCallback(
+    (newItems) => {
+      const sub_total = newItems?.reduce(function (a, b) {
+        return a + Number(b?.amount);
+      }, 0);
+      setSubTotal(sub_total);
+    },
+    [items]
+  );
+
+  const removeRow = useCallback(
+    (index) => {
+      const newItems = JSON.parse(JSON.stringify(items));
+      if (index !== -1) {
+        newItems?.splice(index, 1);
+      }
+      setItems(newItems);
+    },
+    [items]
+  );
+
+  const handleChaneInput = useCallback(
+    (name, index, value) => {
+      const newItems = JSON.parse(JSON.stringify(items));
+      newItems[index][name] = value;
+      setItems(newItems);
+      if (name !== "item") calculaAmount(index, newItems);
+    },
+    [items]
+  );
   return (
     <>
       <InvoiceContainer>
@@ -166,38 +201,50 @@ const InvoiceForm = () => {
                               <Input
                                 type="text"
                                 placeholder="Item Name"
-                                value={itemName}
+                                value={items[index]?.item}
                                 onChange={(e) => {
-                                  setItemName(e.target.value);
+                                  handleChaneInput(
+                                    "item",
+                                    index,
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </Td>
                             <Td>
                               <Input
-                                type="text"
+                                type="number"
                                 placeholder="Qty"
-                                value={qty}
+                                value={items[index]?.qty}
                                 onChange={(e) => {
-                                  setQty(e.target.value);
+                                  handleChaneInput(
+                                    "qty",
+                                    index,
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </Td>
                             <Td>
                               <Input
-                                type="text"
+                                type="number"
                                 placeholder="Rate"
-                                value={rate}
+                                value={items[index]?.rate}
                                 onChange={(e) => {
-                                  setRate(e.target.value);
+                                  handleChaneInput(
+                                    "rate",
+                                    index,
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </Td>
                             <Td>
                               <Input
-                                type="text"
+                                type="number"
                                 placeholder="Amount"
-                                readonly
-                                // value={amount}
+                                readOnly={true}
+                                value={items[index]?.amount}
                               />
                             </Td>
                             <CrossIcon
@@ -232,7 +279,12 @@ const InvoiceForm = () => {
               <InvoiceTopRight>
                 <InputBlock className="flex-end">
                   <Label>Sub Total</Label>
-                  <InputText type="text" placeholder="Sub Total"></InputText>
+                  <InputText
+                    type="text"
+                    placeholder="Sub Total"
+                    readOnly={true}
+                    value={subTotal}
+                  ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
                   <Label>GST</Label>
