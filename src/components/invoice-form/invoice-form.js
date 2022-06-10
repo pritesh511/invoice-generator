@@ -39,6 +39,8 @@ const InvoiceForm = () => {
   const [dueDate, setDuetDate] = useState(new Date());
   const [poNumber, setPoNumber] = useState("");
   const [subTotal, setSubTotal] = useState(Number);
+  const [gstSubTotal, gstSetSubTotal] = useState(Number);
+  const [amountTotal, setAmountTotal] = useState(Number);
   const [notes, setNotes] = useState("");
   const [items, setItems] = useState([
     { item: "", qty: "", rate: "", amount: "" },
@@ -52,25 +54,24 @@ const InvoiceForm = () => {
 
   const calculaAmount = useCallback(
     (index, newItems) => {
-      const qty = Number(newItems[index]?.qty);
-      const rate = Number(newItems[index]?.rate);
+      const item = newItems?.[index] || {};
+      const qty = Number(item?.qty);
+      const rate = Number(item?.rate);
       const amount = qty * rate;
-      newItems[index].amount = amount;
+      item.amount = amount;
       setItems(newItems);
       calculateSubTotal(newItems);
     },
     [items]
   );
 
-  const calculateSubTotal = useCallback(
-    (newItems) => {
-      const sub_total = newItems?.reduce(function (a, b) {
-        return a + Number(b?.amount);
-      }, 0);
-      setSubTotal(sub_total);
-    },
-    [items]
-  );
+  const calculateSubTotal = useCallback((newItems) => {
+    const sub_total = newItems?.reduce(function (a, b) {
+      return a + Number(b?.amount);
+    }, 0);
+    setSubTotal(sub_total);
+    setAmountTotal(sub_total);
+  }, []);
 
   const removeRow = useCallback(
     (index) => {
@@ -78,7 +79,7 @@ const InvoiceForm = () => {
       if (index !== -1) {
         newItems?.splice(index, 1);
       }
-      setItems(newItems);
+      calculaAmount(index, newItems);
     },
     [items]
   );
@@ -92,6 +93,21 @@ const InvoiceForm = () => {
     },
     [items]
   );
+
+  const calclateGst = useCallback((tem_total, value) => {
+    const gst_percentage = value;
+    const gst = (tem_total * Number(gst_percentage)) / 100;
+    const total = tem_total + gst;
+    gstSetSubTotal(total);
+    setAmountTotal(total);
+  }, []);
+
+  const calculateCgst = useCallback((tem_total, value) => {
+    const gst = (tem_total * Number(value)) / 100;
+    const total = tem_total + gst;
+    setAmountTotal(total);
+  }, []);
+
   return (
     <>
       <InvoiceContainer>
@@ -288,15 +304,27 @@ const InvoiceForm = () => {
                 </InputBlock>
                 <InputBlock className="flex-end">
                   <Label>GST</Label>
-                  <InputText type="text" placeholder="GST"></InputText>
+                  <InputText
+                    type="text"
+                    placeholder="GST"
+                    onChange={(e) => {
+                      calclateGst(subTotal, e.target.value);
+                    }}
+                  ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
                   <Label>CGST</Label>
-                  <InputText type="text" placeholder="CGST"></InputText>
+                  <InputText
+                    type="text"
+                    placeholder="CGST"
+                    onChange={(e) => {
+                      calculateCgst(gstSubTotal, e.target.value);
+                    }}
+                  ></InputText>
                 </InputBlock>
                 <TotalAmount>
                   <Label>Total Amount</Label>
-                  <span>25620356</span>
+                  <span>{amountTotal}</span>
                 </TotalAmount>
               </InvoiceTopRight>
             </InvoiceFlex>
