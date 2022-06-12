@@ -27,86 +27,170 @@ import {
   DownLoadButton,
   CrossIcon,
 } from "./styles";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DateTimePicker from "react-datetime-picker";
 
 const InvoiceForm = () => {
-  const [companyName, setCompanyName] = useState("invoice");
-  const [companyLogo, setCompanyLogo] = useState("");
-  const [companyAdd, setCompanyAdd] = useState("company_address");
-  const [toAdd, setToAdd] = useState("company_address");
-  const [invoiceDate, setInvoicetDate] = useState(new Date());
-  const [dueDate, setDuetDate] = useState(new Date());
-  const [poNumber, setPoNumber] = useState("");
-  const [subTotal, setSubTotal] = useState(Number);
-  const [gstSubTotal, gstSetSubTotal] = useState(Number);
-  const [amountTotal, setAmountTotal] = useState(Number);
-  const [notes, setNotes] = useState("");
-  const [items, setItems] = useState([
-    { item: "", qty: "", rate: "", amount: "" },
-    { item: "", qty: "", rate: "", amount: "" },
-    { item: "", qty: "", rate: "", amount: "" },
-  ]);
+  const [invoice, setInvoice] = useState({
+    companyName: "invoice",
+    companyLogo: "",
+    companyAdd: "company_address",
+    toAdd: "company_address",
+    invoiceDate: new Date(),
+    dueDate: new Date(),
+    poNumber: "",
+    invoice_number: "",
+    subTotal: "",
+    cgst: "",
+    sgst: "",
+    discount: "",
+    tempAmountTotal: "",
+    payAmount: "",
+    amountTotal: "",
+    notes: "",
+    items: [
+      { item: "", qty: "", rate: "", amount: "" },
+      { item: "", qty: "", rate: "", amount: "" },
+      { item: "", qty: "", rate: "", amount: "" },
+    ],
+  });
+
+  const {
+    companyName,
+    companyLogo,
+    companyAdd,
+    toAdd,
+    invoiceDate,
+    dueDate,
+    poNumber,
+    invoice_number,
+    notes,
+    subTotal,
+    payAmount,
+    discount,
+    cgst,
+    sgst,
+    items,
+  } = invoice;
+
+  const handleInputData = useCallback(
+    (name, value) => {
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      newInvoice[name] = value;
+      setInvoice(newInvoice);
+      if (name === "discount") handleDicount(newInvoice);
+      if (name === "cgst") cgstTaxCount(newInvoice);
+      if (name === "sgst") sgstTaxCount(newInvoice);
+    },
+    [invoice]
+  );
+
   const addNewRow = useCallback(() => {
+    const newInvoice = JSON.parse(JSON.stringify(invoice));
     const item = { item: "", qty: "", rate: "", amount: "" };
-    setItems([...items, item]);
-  }, [items]);
+    newInvoice?.items?.push(item);
+    setInvoice(newInvoice);
+  }, [invoice]);
 
   const calculaAmount = useCallback(
-    (index, newItems) => {
-      const item = newItems?.[index] || {};
+    (index, invoice) => {
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      const { items } = newInvoice;
+      const item = items?.[index] || {};
       const qty = Number(item?.qty);
       const rate = Number(item?.rate);
       const amount = qty * rate;
       item.amount = amount;
-      setItems(newItems);
-      calculateSubTotal(newItems);
+      setInvoice(newInvoice);
+      calculateSubTotal(newInvoice);
     },
-    [items]
+    [invoice]
   );
 
-  const calculateSubTotal = useCallback((newItems) => {
-    const sub_total = newItems?.reduce(function (a, b) {
-      return a + Number(b?.amount);
-    }, 0);
-    setSubTotal(sub_total);
-    setAmountTotal(sub_total);
-  }, []);
+  const calculateSubTotal = useCallback(
+    (newInvoice) => {
+      const { items } = newInvoice;
+      const sub_total = items?.reduce(function (a, b) {
+        return a + Number(b?.amount);
+      }, 0);
+      newInvoice.subTotal = sub_total;
+      setInvoice(newInvoice);
+      handleDicount(newInvoice);
+    },
+    [invoice]
+  );
 
   const removeRow = useCallback(
     (index) => {
-      const newItems = JSON.parse(JSON.stringify(items));
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      const { items } = newInvoice;
       if (index !== -1) {
-        newItems?.splice(index, 1);
+        items?.splice(index, 1);
       }
-      calculaAmount(index, newItems);
+      console.log("newInvoice----", newInvoice);
+      calculaAmount(index, newInvoice);
+      calculateSubTotal(newInvoice);
     },
-    [items]
+    [invoice]
   );
 
   const handleChaneInput = useCallback(
     (name, index, value) => {
-      const newItems = JSON.parse(JSON.stringify(items));
-      newItems[index][name] = value;
-      setItems(newItems);
-      if (name !== "item") calculaAmount(index, newItems);
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      newInvoice.items[index][name] = value;
+      setInvoice(newInvoice);
+      if (name !== "item") calculaAmount(index, newInvoice);
     },
-    [items]
+    [invoice]
   );
 
-  const calclateGst = useCallback((tem_total, value) => {
-    const gst_percentage = value;
-    const gst = (tem_total * Number(gst_percentage)) / 100;
-    const total = tem_total + gst;
-    gstSetSubTotal(total);
-    setAmountTotal(total);
-  }, []);
+  const handleDicount = useCallback(
+    (invoice) => {
+      console.log("dicountcall");
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      const { subTotal, discount } = newInvoice;
+      const discount_value = (Number(subTotal) * Number(discount)) / 100;
+      const temp_total = Number(subTotal) - discount_value;
+      newInvoice.amountTotal = temp_total;
+      newInvoice.tempAmountTotal = temp_total;
+      newInvoice.payAmount = temp_total;
+      console.log("newInvoice1", newInvoice);
+      setInvoice(newInvoice);
+      cgstTaxCount(newInvoice);
+    },
+    [invoice]
+  );
 
-  const calculateCgst = useCallback((tem_total, value) => {
-    const gst = (tem_total * Number(value)) / 100;
-    const total = tem_total + gst;
-    setAmountTotal(total);
-  }, []);
+  const cgstTaxCount = useCallback(
+    (invoice) => {
+      console.log("cgstcall");
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      const { tempAmountTotal, cgst } = newInvoice;
+      const cgst_value = (Number(tempAmountTotal) * Number(cgst)) / 100;
+      const temp_total = tempAmountTotal + cgst_value;
+      newInvoice.amountTotal = temp_total;
+      newInvoice.payAmount = temp_total;
+      console.log("newInvoice2", newInvoice);
+      setInvoice(newInvoice);
+      sgstTaxCount(newInvoice);
+    },
+    [invoice]
+  );
+
+  const sgstTaxCount = useCallback(
+    (invoice) => {
+      console.log("sgstcall");
+      const newInvoice = JSON.parse(JSON.stringify(invoice));
+      const { amountTotal, tempAmountTotal, sgst } = newInvoice;
+      const sgst_value = (Number(tempAmountTotal) * Number(sgst)) / 100;
+      const temp_total = amountTotal + sgst_value;
+      newInvoice.payAmount = temp_total;
+      console.log("newInvoice3", newInvoice);
+      setInvoice(newInvoice);
+    },
+    [invoice]
+  );
+
+  console.log("invoice", invoice);
 
   return (
     <>
@@ -120,7 +204,7 @@ const InvoiceForm = () => {
                     type="text"
                     value={companyName}
                     onChange={(e) => {
-                      setCompanyName(e.target.value);
+                      handleInputData("companyName", e.target.value);
                     }}
                   />
                 </CompanyName>
@@ -129,7 +213,7 @@ const InvoiceForm = () => {
                   <textarea
                     value={companyAdd}
                     onChange={(e) => {
-                      setCompanyAdd(e.target.value);
+                      handleInputData("companyAdd", e.target.value);
                     }}
                   ></textarea>
                 </CompanyAddress>
@@ -140,7 +224,7 @@ const InvoiceForm = () => {
                     type="file"
                     value={companyLogo}
                     onChange={(e) => {
-                      setCompanyLogo(e.target.value);
+                      handleInputData("companyLogo", e.target.value);
                     }}
                     accept="image/png, image/gif, image/jpeg"
                   />
@@ -154,24 +238,34 @@ const InvoiceForm = () => {
                   <InputText
                     type="text"
                     placeholder="invoice-number"
+                    value={invoice_number}
+                    onChange={(e) => {
+                      handleInputData("invoice_number", e.target.value);
+                    }}
                   ></InputText>
                 </InputBlock>
                 <InputBlock>
                   <Label>Invoice Date</Label>
-                  <DatePicker
-                    className="date-picker"
-                    selected={invoiceDate}
-                    onChange={(e) => {
-                      setInvoicetDate(e);
+                  <DateTimePicker
+                    // className="date-picker"
+                    clearIcon={null}
+                    format={"MM/dd/y"}
+                    value={new Date(invoiceDate)}
+                    onChange={(date) => {
+                      handleInputData("invoiceDate", date);
                     }}
                   />
                 </InputBlock>
                 <InputBlock>
                   <Label>Due Date</Label>
-                  <DatePicker
-                    className="date-picker"
-                    selected={dueDate}
-                    onChange={(e) => setDuetDate(e)}
+                  <DateTimePicker
+                    // className="date-picker"
+                    clearIcon={null}
+                    format={"MM/dd/y"}
+                    value={new Date(dueDate)}
+                    onChange={(date) => {
+                      handleInputData("dueDate", date);
+                    }}
                   />
                 </InputBlock>
                 <InputBlock>
@@ -180,7 +274,9 @@ const InvoiceForm = () => {
                     type="text"
                     placeholder="Po Number"
                     value={poNumber}
-                    onChange={(e) => setPoNumber(e.target.value)}
+                    onChange={(e) =>
+                      handleInputData("poNumber", e.target.value)
+                    }
                   ></InputText>
                 </InputBlock>
               </InvoiceTopLeft>
@@ -189,7 +285,7 @@ const InvoiceForm = () => {
                   <textarea
                     value={toAdd}
                     onChange={(e) => {
-                      setToAdd(e.target.value);
+                      handleInputData("toAdd", e.target.value);
                     }}
                   ></textarea>
                 </CompanyAddress>
@@ -288,7 +384,7 @@ const InvoiceForm = () => {
                   placeholder="Notes/Memo"
                   value={notes}
                   onChange={(e) => {
-                    setNotes(e.target.value);
+                    handleInputData("notes", e.target.value);
                   }}
                 />
               </InvoiceTopLeft>
@@ -303,28 +399,41 @@ const InvoiceForm = () => {
                   ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
-                  <Label>GST</Label>
+                  <Label>Discount(in%)</Label>
                   <InputText
                     type="text"
-                    placeholder="GST"
+                    placeholder="Discount"
+                    value={discount}
                     onChange={(e) => {
-                      calclateGst(subTotal, e.target.value);
+                      handleInputData("discount", e.target.value);
                     }}
                   ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
-                  <Label>CGST</Label>
+                  <Label>CGST(in%)</Label>
                   <InputText
                     type="text"
                     placeholder="CGST"
+                    value={cgst}
                     onChange={(e) => {
-                      calculateCgst(gstSubTotal, e.target.value);
+                      handleInputData("cgst", e.target.value);
+                    }}
+                  ></InputText>
+                </InputBlock>
+                <InputBlock className="flex-end">
+                  <Label>SGST(in%)</Label>
+                  <InputText
+                    type="text"
+                    placeholder="SGST"
+                    value={sgst}
+                    onChange={(e) => {
+                      handleInputData("sgst", e.target.value);
                     }}
                   ></InputText>
                 </InputBlock>
                 <TotalAmount>
                   <Label>Total Amount</Label>
-                  <span>{amountTotal}</span>
+                  <span>{payAmount}</span>
                 </TotalAmount>
               </InvoiceTopRight>
             </InvoiceFlex>
