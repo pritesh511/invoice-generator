@@ -126,7 +126,6 @@ const InvoiceForm = () => {
       if (index !== -1) {
         items?.splice(index, 1);
       }
-      console.log("newInvoice----", newInvoice);
       calculaAmount(index, newInvoice);
       calculateSubTotal(newInvoice);
     },
@@ -145,7 +144,6 @@ const InvoiceForm = () => {
 
   const handleDicount = useCallback(
     (invoice) => {
-      console.log("dicountcall");
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { subTotal, discount } = newInvoice;
       const discount_value = (Number(subTotal) * Number(discount)) / 100;
@@ -153,7 +151,6 @@ const InvoiceForm = () => {
       newInvoice.amountTotal = temp_total;
       newInvoice.tempAmountTotal = temp_total;
       newInvoice.payAmount = temp_total;
-      console.log("newInvoice1", newInvoice);
       setInvoice(newInvoice);
       cgstTaxCount(newInvoice);
     },
@@ -162,14 +159,12 @@ const InvoiceForm = () => {
 
   const cgstTaxCount = useCallback(
     (invoice) => {
-      console.log("cgstcall");
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { tempAmountTotal, cgst } = newInvoice;
       const cgst_value = (Number(tempAmountTotal) * Number(cgst)) / 100;
       const temp_total = tempAmountTotal + cgst_value;
       newInvoice.amountTotal = temp_total;
       newInvoice.payAmount = temp_total;
-      console.log("newInvoice2", newInvoice);
       setInvoice(newInvoice);
       sgstTaxCount(newInvoice);
     },
@@ -178,13 +173,12 @@ const InvoiceForm = () => {
 
   const sgstTaxCount = useCallback(
     (invoice) => {
-      console.log("sgstcall");
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { amountTotal, tempAmountTotal, sgst } = newInvoice;
       const sgst_value = (Number(tempAmountTotal) * Number(sgst)) / 100;
       const temp_total = amountTotal + sgst_value;
       newInvoice.payAmount = temp_total;
-      console.log("newInvoice3", newInvoice);
+
       setInvoice(newInvoice);
     },
     [invoice]
@@ -306,69 +300,55 @@ const InvoiceForm = () => {
                   <Tbody>
                     {items?.map((item, index) => {
                       return (
-                        <>
-                          <Tr key={`Items_Index_${index}`}>
-                            <Td>{index + 1}</Td>
-                            <Td>
-                              <Input
-                                type="text"
-                                placeholder="Item Name"
-                                value={items[index]?.item}
-                                onChange={(e) => {
-                                  handleChaneInput(
-                                    "item",
-                                    index,
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            </Td>
-                            <Td>
-                              <Input
-                                type="number"
-                                placeholder="Qty"
-                                value={items[index]?.qty}
-                                onChange={(e) => {
-                                  handleChaneInput(
-                                    "qty",
-                                    index,
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            </Td>
-                            <Td>
-                              <Input
-                                type="number"
-                                placeholder="Rate"
-                                value={items[index]?.rate}
-                                onChange={(e) => {
-                                  handleChaneInput(
-                                    "rate",
-                                    index,
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            </Td>
-                            <Td>
-                              <Input
-                                type="number"
-                                placeholder="Amount"
-                                readOnly={true}
-                                value={items[index]?.amount}
-                              />
-                            </Td>
-                            <CrossIcon
-                              onClick={() => {
-                                removeRow(index);
+                        <Tr key={`Items_Index_${index}`}>
+                          <Td>{index + 1}</Td>
+                          <Td>
+                            <Input
+                              type="text"
+                              placeholder="Item Name"
+                              value={items[index]?.item}
+                              onChange={(e) => {
+                                handleChaneInput("item", index, e.target.value);
                               }}
-                            >
-                              {/* <img src="/images/close.svg" alt="icon" /> */}
-                              <span>-</span>
-                            </CrossIcon>
-                          </Tr>
-                        </>
+                            />
+                          </Td>
+                          <Td>
+                            <Input
+                              type="number"
+                              placeholder="Qty"
+                              value={items[index]?.qty}
+                              onChange={(e) => {
+                                handleChaneInput("qty", index, e.target.value);
+                              }}
+                            />
+                          </Td>
+                          <Td>
+                            <Input
+                              type="number"
+                              placeholder="Rate"
+                              value={items[index]?.rate}
+                              onChange={(e) => {
+                                handleChaneInput("rate", index, e.target.value);
+                              }}
+                            />
+                          </Td>
+                          <Td>
+                            <Input
+                              type="number"
+                              placeholder="Amount"
+                              readOnly={true}
+                              value={items[index]?.amount}
+                            />
+                          </Td>
+                          <CrossIcon
+                            onClick={() => {
+                              removeRow(index);
+                            }}
+                          >
+                            {/* <img src="/images/close.svg" alt="icon" /> */}
+                            <span>-</span>
+                          </CrossIcon>
+                        </Tr>
                       );
                     })}
                   </Tbody>
