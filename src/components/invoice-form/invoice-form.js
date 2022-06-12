@@ -399,7 +399,7 @@ const InvoiceForm = () => {
                   ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
-                  <Label>Discount(in%)</Label>
+                  <Label>Discount(%)</Label>
                   <InputText
                     type="text"
                     placeholder="Discount"
@@ -410,7 +410,7 @@ const InvoiceForm = () => {
                   ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
-                  <Label>CGST(in%)</Label>
+                  <Label>CGST(%)</Label>
                   <InputText
                     type="text"
                     placeholder="CGST"
@@ -421,7 +421,7 @@ const InvoiceForm = () => {
                   ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
-                  <Label>SGST(in%)</Label>
+                  <Label>SGST(%)</Label>
                   <InputText
                     type="text"
                     placeholder="SGST"
