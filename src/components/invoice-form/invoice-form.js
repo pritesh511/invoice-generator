@@ -28,6 +28,8 @@ import {
   CrossIcon,
 } from "./styles";
 import DateTimePicker from "react-datetime-picker";
+import axios from "axios";
+import { saveAs } from "file-saver";
 
 const InvoiceForm = () => {
   const [invoice, setInvoice] = useState({
@@ -186,10 +188,27 @@ const InvoiceForm = () => {
 
   console.log("invoice", invoice);
 
+  const HOST = "http://localhost:4000";
+
+  const submitInvoice = (e) => {
+    e.preventDefault();
+    console.log(" formState v: ", invoice);
+    axios
+      .post(`${HOST}/create-pdf`, invoice)
+      .then((res) => {
+        console.warn(res);
+      })
+      .then(() => axios.get(`${HOST}/fetch-pdf`, { responseType: "blob" }))
+      .then((res) => {
+        const pdfBolb = new Blob([res?.data], { type: "application/pdf" });
+        saveAs(pdfBolb, "newPdf.pdf");
+      });
+  };
+
   return (
     <>
       <InvoiceContainer>
-        <Form>
+        <Form onSubmit={submitInvoice}>
           <InvoiceUpperForm>
             <InvoiceFlex>
               <InvoiceTopLeft>
