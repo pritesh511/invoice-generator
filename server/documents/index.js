@@ -78,7 +78,8 @@ module.exports = ({
           justify-content: center;
         }
         .company-logo img {
-          max-width: 100%;
+          width: 100%;
+          height: 100%;
         }
         .label {
           font-size: 16px;

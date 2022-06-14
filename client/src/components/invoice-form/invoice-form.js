@@ -29,6 +29,7 @@ import {
 } from "./styles";
 import DateTimePicker from "react-datetime-picker";
 import axios from "axios";
+import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
 
 const InvoiceForm = () => {
@@ -188,6 +189,32 @@ const InvoiceForm = () => {
 
   console.log("invoice", invoice);
 
+  const onChangeLogo = useCallback(
+    (e) => {
+      const value = e.target.files[0];
+      resizeFile(value);
+    },
+    [invoice]
+  );
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "PNG",
+        100,
+        0,
+        (uri) => {
+          console.log("uri", uri);
+          resolve(uri);
+          handleInputData("companyLogo", uri);
+        },
+        "base64"
+      );
+    });
+
   const HOST = "http://localhost:4000";
 
   const submitInvoice = (e) => {
@@ -235,11 +262,12 @@ const InvoiceForm = () => {
                 <AddLogo>
                   <input
                     type="file"
-                    value={companyLogo}
+                    id="upload-file"
                     onChange={(e) => {
-                      handleInputData("companyLogo", e.target.value);
+                      onChangeLogo(e);
+                      // handleInputData("companyLogo", e.target.value);
                     }}
-                    accept="image/png, image/gif, image/jpeg"
+                    accept="image/png, image/svg, image/jpeg"
                   />
                 </AddLogo>
               </InvoiceTopRight>
