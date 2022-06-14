@@ -18,7 +18,6 @@ app.use(
 );
 
 app.post("/create-pdf", (req, res) => {
-  console.log(req.body);
   pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
     if (err) {
       res.send(Promise.reject());
