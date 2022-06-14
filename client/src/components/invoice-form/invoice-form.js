@@ -215,17 +215,16 @@ const InvoiceForm = () => {
       );
     });
 
-  const HOST = "http://localhost:4000";
+  // const HOST = "http://localhost:4000";
 
   const submitInvoice = (e) => {
     e.preventDefault();
-    console.log(" formState v: ", invoice);
     axios
-      .post(`${HOST}/create-pdf`, invoice)
+      .post(`/create-pdf`, invoice)
       .then((res) => {
         console.warn(res);
       })
-      .then(() => axios.get(`${HOST}/fetch-pdf`, { responseType: "blob" }))
+      .then(() => axios.get(`/fetch-pdf`, { responseType: "blob" }))
       .then((res) => {
         const pdfBolb = new Blob([res?.data], { type: "application/pdf" });
         saveAs(pdfBolb, "newInvoice.pdf");

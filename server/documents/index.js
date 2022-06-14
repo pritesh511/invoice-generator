@@ -74,12 +74,14 @@ module.exports = ({
           height: 150px;
           width: 150px;
           display: flex;
+          display: -webkit-box;
           align-items: center;
           justify-content: center;
+          -webkit-align-items: center;
+          -webkit-justify-content: center;
         }
         .company-logo img {
-          width: 100%;
-          height: 100%;
+          max-width: 100%;
         }
         .label {
           font-size: 16px;
