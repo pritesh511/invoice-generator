@@ -201,7 +201,7 @@ const InvoiceForm = () => {
       .then(() => axios.get(`${HOST}/fetch-pdf`, { responseType: "blob" }))
       .then((res) => {
         const pdfBolb = new Blob([res?.data], { type: "application/pdf" });
-        saveAs(pdfBolb, "newPdf.pdf");
+        saveAs(pdfBolb, "newInvoice.pdf");
       });
   };
 
