@@ -1,31 +1,27 @@
 import styled from "styled-components";
 
 const InvoiceContainer = styled.div`
-  max-width: 1270px;
-  /* width: 100%; */
-  padding: 0 16px;
-  margin: auto;
+  width: 100%;
 `;
-const Form = styled.form``;
-const InvoiceUpperForm = styled.div`
-  padding: 0 20px;
-  margin: 30px 0;
-  background: #fff;
-  border: 1px solid #ccc;
+const Form = styled.form`
+  padding: 30px;
 `;
+const InvoiceUpperForm = styled.div``;
 const InvoiceBottomBtn = styled.div`
+  padding: 10px 0;
   display: flex;
   justify-content: flex-end;
 `;
 const InvoiceFlex = styled.div`
+  padding: 24px 0;
   display: flex;
-  border-bottom: 1px solid #ccc;
-  padding: 20px 0;
-  :last-child {
-    border: none;
-  }
+  align-items: center;
   &.invoice-table {
     width: 100%;
+  }
+  &.border {
+    border-top: 2px solid var(--yellow);
+    border-bottom: 2px solid var(--yellow);
   }
 `;
 const InvoiceTopLeft = styled.div`
@@ -33,14 +29,32 @@ const InvoiceTopLeft = styled.div`
   text-align: left;
 `;
 const AddLogo = styled.div`
-  height: 70px;
-  max-width: 250px;
-  width: 100%;
-  padding: 16px;
+  width: 267px;
+  height: 133px;
+  background-color: #ffffff;
+  border: 1px solid #9f9a9a;
+  padding: 8px;
   margin-left: auto;
-  border: 1px solid #ccc;
-  input {
+  position: relative;
+  label {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    border: 1px dotted var(--border);
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--yellow);
+  }
+  input {
+    position: absolute;
+    z-index: -1;
+    display: none;
   }
 `;
 const InvoiceTopRight = styled.div`
@@ -49,87 +63,203 @@ const InvoiceTopRight = styled.div`
 `;
 const ComponyInfo = styled.div``;
 const CompanyName = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 0 0 16px 0;
   input {
     border: 1px solid transparent;
-    font-size: 28px;
-    line-height: 1em;
-    padding: 0 15px;
-    color: #232e38;
+    font-size: 32px;
+    line-height: 34px;
+    font-weight: 500;
+    color: var(--dark);
+    padding: 0 8px;
     text-align: left;
     height: auto;
-    border-radius: 4px;
     width: 100%;
-    text-transform: uppercase;
+    text-transform: capitalize;
     :focus {
-      border: 1px solid #ccc;
+      outline: none;
+      box-shadow: none;
+      border: 1px solid var(--yellow);
     }
   }
 `;
+const CompanyNameInput = styled.input`
+  border: 1px solid transparent;
+  font-size: 26px;
+  line-height: 28px;
+  font-weight: 500;
+  color: var(--yellow);
+  padding: 0 8px;
+  text-align: left;
+  height: auto;
+  width: -webkit-fill-available;
+  text-transform: uppercase;
+  :focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--yellow);
+  }
+`;
 const CompanyAddress = styled.div`
+  display: flex;
+  flex-direction: column;
   textarea {
-    padding: 8px 15px;
+    padding: 8px;
     border: 1px solid transparent;
     resize: none;
-    font-size: 12px;
-    color: #000;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: var(--dark);
     display: inline-block;
+    width: 50%;
+    font-family: "Poppins", sans-serif;
+    :focus {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid var(--yellow);
+    }
+  }
+`;
+const ToCompanyAddress = styled.div`
+  width: 55%;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  span {
+    margin: 0 0 14px 8px;
+    font-size: 18px;
+    color: var(--gray);
+    font-weight: 600;
+    font-family: "Poppins";
+  }
+  textarea {
+    padding: 8px;
+    border: 1px solid transparent;
+    resize: none;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: var(--dark);
+    display: inline-block;
+    width: 100%;
+    font-family: "Poppins", sans-serif;
+    :focus {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid var(--yellow);
+    }
   }
 `;
 const InputBlock = styled.div`
   width: 100%;
+  margin: 0 0 8px 0;
   display: flex;
   align-items: center;
-  margin: 0 0 8px 0;
   appearance: none;
   -webkit-appearance: none;
   &.flex-end {
     justify-content: flex-end;
+  }
+  .react-datetime-picker {
+    width: 188px;
   }
   .date-picker {
     padding: 8px 12px;
     border: 1px solid #ccc;
     width: auto;
   }
+  .react-datetime-picker__wrapper {
+    padding: 8px;
+    border: 1px solid var(--border);
+  }
   .react-datepicker-wrapper {
     width: auto;
   }
 `;
+const TotalSpan = styled.div`
+  width: 30%;
+  text-align: left;
+  padding: 0 0 0 8px;
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
+  color: var(--dark);
+`;
 const Label = styled.span`
-  width: 20%;
+  font-size: 16px;
+  line-height: 24px;
+  display: block;
+  color: var(--dark);
+  width: 22%;
   margin: 0 12px 0 0;
 `;
 const InputText = styled.input`
-  padding: 8px 12px;
-  border: 1px solid #ccc;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 14px;
+  color: var(--dark);
+  ::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--border);
+  }
+  :focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--yellow);
+  }
 `;
 const Input = styled.input`
-  width: -webkit-fill-available;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0;
+  font-size: 14px;
+  line-height: 22px;
+  width: 100%;
+  padding: 6px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  :focus {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid var(--yellow);
+  }
 `;
 const InvoiceTableBlock = styled.div`
   width: 100%;
 `;
 const InvoiceTable = styled.table`
   width: 100%;
+  border-spacing: 0;
 `;
 const Thead = styled.thead`
   width: 100%;
+  background-color: #e8e8e8;
 `;
 const Tbody = styled.tbody`
   width: 100%;
 `;
 const Th = styled.th`
-  padding: 9px 5px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--dark);
   border-top: 1px solid rgb(228, 228, 229);
-  border-bottom: 1px solid rgb(228, 228, 229);
-  background-color: rgb(249, 251, 255);
+  border-bottom: 2px solid var(--yellow);
   text-align: left;
+  &.first {
+    text-align: center;
+  }
 `;
 const Td = styled.td`
-  padding: 9px 5px;
-  border-bottom: 1px solid rgb(228, 228, 229);
+  padding: 10px;
+  &.first {
+    text-align: center;
+  }
 `;
 const Tr = styled.tr`
   width: 100%;
@@ -137,51 +267,48 @@ const Tr = styled.tr`
 `;
 const AddRowBtn = styled.button`
   font-size: 14px;
-  line-height: 18px;
+  line-height: 22px;
   color: #fff;
   cursor: pointer;
-  padding: 8px;
+  padding: 8px 10px;
   margin: 12px 0 0 0;
   border-radius: 4px;
-  background-color: #009e74;
-  border: 1px solid #10806f;
-  box-shadow: 0 1px 0 0 rgb(22 29 37 / 10%),
-    inset 0 1px 0 1px rgb(255 255 255 / 6%);
-  transition: all 300ms;
-  :hover {
-    background-color: #10806f;
-  }
+  background-color: var(--yellow);
+  border: none;
+  box-shadow: none;
+  outline: none;
 `;
 const TextArea = styled.textarea`
-  padding: 8px 12px;
-  font-size: 14px;
+  padding: 12px;
+  font-size: 16px;
   line-height: 18px;
   resize: none;
-  border: 1px solid #ccc;
-  width: -webkit-fill-available;
+  border: 1px solid transparent;
+  width: 100%;
   height: 129px;
+  font-family: "Poppins", sans-serif;
+  :focus {
+    border: 1px solid var(--yellow);
+    box-shadow: none;
+    outline: none;
+  }
 `;
 const TotalAmount = styled.div`
-  padding: 20px 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  span {
-    width: 32%;
-  }
 `;
 const DownLoadButton = styled.button`
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 16px;
-  line-height: 24px;
-  color: white;
+  font-size: 15px;
+  line-height: 22px;
+  color: #fff;
   cursor: pointer;
-  background-color: #009e74;
-  border: 1px solid #10806f;
-  box-shadow: 0 1px 0 0 rgb(22 29 37 / 10%),
-    inset 0 1px 0 1px rgb(255 255 255 / 6%);
-  margin: 0 0 48px 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background-color: var(--yellow);
+  border: none;
+  box-shadow: none;
+  outline: none;
 `;
 const CrossIcon = styled.td`
   width: 12px;
@@ -194,6 +321,14 @@ const CrossIcon = styled.td`
   justify-content: center;
   span {
     display: block;
+  }
+`;
+const ToAddBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  textarea {
+    width: -webkit-fill-available;
   }
 `;
 
@@ -225,4 +360,8 @@ export {
   TotalAmount,
   DownLoadButton,
   CrossIcon,
+  TotalSpan,
+  ToCompanyAddress,
+  CompanyNameInput,
+  ToAddBottom,
 };

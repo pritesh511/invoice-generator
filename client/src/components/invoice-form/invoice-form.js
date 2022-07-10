@@ -26,6 +26,10 @@ import {
   TotalAmount,
   DownLoadButton,
   CrossIcon,
+  TotalSpan,
+  ToCompanyAddress,
+  CompanyNameInput,
+  ToAddBottom,
 } from "./styles";
 import DateTimePicker from "react-datetime-picker";
 import axios from "axios";
@@ -34,10 +38,12 @@ import { saveAs } from "file-saver";
 
 const InvoiceForm = () => {
   const [invoice, setInvoice] = useState({
-    companyName: "invoice",
+    invoiceName: "Invoice",
+    fromCompanyName: "Abc company Pvt Ltd",
+    toCompanyName: "xyz company Pvt Ltd",
     companyLogo: "",
-    companyAdd: "company_address",
-    toAdd: "company_address",
+    companyAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+    toAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
     invoiceDate: new Date(),
     dueDate: new Date(),
     poNumber: "",
@@ -58,8 +64,10 @@ const InvoiceForm = () => {
   });
 
   const {
-    companyName,
+    invoiceName,
     companyLogo,
+    fromCompanyName,
+    toCompanyName,
     companyAdd,
     toAdd,
     invoiceDate,
@@ -241,14 +249,20 @@ const InvoiceForm = () => {
                 <CompanyName>
                   <input
                     type="text"
-                    value={companyName}
+                    value={invoiceName}
                     onChange={(e) => {
-                      handleInputData("companyName", e.target.value);
+                      handleInputData("invoiceName", e.target.value);
                     }}
                   />
                 </CompanyName>
-                <br />
                 <CompanyAddress>
+                  <CompanyNameInput
+                    type="text"
+                    value={fromCompanyName}
+                    onChange={(e) => {
+                      handleInputData("fromCompanyName", e.target.value);
+                    }}
+                  ></CompanyNameInput>
                   <textarea
                     value={companyAdd}
                     onChange={(e) => {
@@ -259,12 +273,12 @@ const InvoiceForm = () => {
               </InvoiceTopLeft>
               <InvoiceTopRight>
                 <AddLogo>
+                  <label htmlFor="upload-file">Company Logo Upload</label>
                   <input
                     type="file"
                     id="upload-file"
                     onChange={(e) => {
                       onChangeLogo(e);
-                      // handleInputData("companyLogo", e.target.value);
                     }}
                     accept="image/png, image/svg, image/jpeg"
                   />
@@ -277,7 +291,7 @@ const InvoiceForm = () => {
                   <Label>Invoice Number</Label>
                   <InputText
                     type="text"
-                    placeholder="invoice-number"
+                    placeholder="INV-01"
                     value={invoice_number}
                     onChange={(e) => {
                       handleInputData("invoice_number", e.target.value);
@@ -287,7 +301,6 @@ const InvoiceForm = () => {
                 <InputBlock>
                   <Label>Invoice Date</Label>
                   <DateTimePicker
-                    // className="date-picker"
                     clearIcon={null}
                     format={"MM/dd/y"}
                     value={new Date(invoiceDate)}
@@ -299,7 +312,6 @@ const InvoiceForm = () => {
                 <InputBlock>
                   <Label>Due Date</Label>
                   <DateTimePicker
-                    // className="date-picker"
                     clearIcon={null}
                     format={"MM/dd/y"}
                     value={new Date(dueDate)}
@@ -321,14 +333,24 @@ const InvoiceForm = () => {
                 </InputBlock>
               </InvoiceTopLeft>
               <InvoiceTopRight>
-                <CompanyAddress>
-                  <textarea
-                    value={toAdd}
-                    onChange={(e) => {
-                      handleInputData("toAdd", e.target.value);
-                    }}
-                  ></textarea>
-                </CompanyAddress>
+                <ToCompanyAddress>
+                  <span>Bill To</span>
+                  <ToAddBottom>
+                    <CompanyNameInput
+                      type="text"
+                      value={toCompanyName}
+                      onChange={(e) => {
+                        handleInputData("toCompanyName", e.target.value);
+                      }}
+                    ></CompanyNameInput>
+                    <textarea
+                      value={toAdd}
+                      onChange={(e) => {
+                        handleInputData("toAdd", e.target.value);
+                      }}
+                    ></textarea>
+                  </ToAddBottom>
+                </ToCompanyAddress>
               </InvoiceTopRight>
             </InvoiceFlex>
             <InvoiceFlex className="invoice-table">
@@ -336,7 +358,7 @@ const InvoiceForm = () => {
                 <InvoiceTable>
                   <Thead>
                     <Tr>
-                      <Th>No</Th>
+                      <Th className="first">No</Th>
                       <Th>Item Name</Th>
                       <Th>Qty</Th>
                       <Th>Rate</Th>
@@ -347,7 +369,7 @@ const InvoiceForm = () => {
                     {items?.map((item, index) => {
                       return (
                         <Tr key={`Items_Index_${index}`}>
-                          <Td>{index + 1}</Td>
+                          <Td className="first">{index + 1}</Td>
                           <Td>
                             <Input
                               type="text"
@@ -386,14 +408,6 @@ const InvoiceForm = () => {
                               value={items[index]?.amount}
                             />
                           </Td>
-                          <CrossIcon
-                            onClick={() => {
-                              removeRow(index);
-                            }}
-                          >
-                            {/* <img src="/images/close.svg" alt="icon" /> */}
-                            <span>-</span>
-                          </CrossIcon>
                         </Tr>
                       );
                     })}
@@ -404,7 +418,7 @@ const InvoiceForm = () => {
                 </AddRowBtn>
               </InvoiceTableBlock>
             </InvoiceFlex>
-            <InvoiceFlex>
+            <InvoiceFlex className="border">
               <InvoiceTopLeft>
                 <TextArea
                   placeholder="Notes/Memo"
@@ -459,7 +473,7 @@ const InvoiceForm = () => {
                 </InputBlock>
                 <TotalAmount>
                   <Label>Total Amount</Label>
-                  <span>{payAmount}</span>
+                  <TotalSpan>{payAmount ? payAmount : "0000"}</TotalSpan>
                 </TotalAmount>
               </InvoiceTopRight>
             </InvoiceFlex>
