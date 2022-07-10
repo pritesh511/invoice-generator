@@ -35,6 +35,7 @@ import DateTimePicker from "react-datetime-picker";
 import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
+import calenderSvgIcon from "../../assets/images/calendar.svg";
 
 const InvoiceForm = () => {
   const [invoice, setInvoice] = useState({
@@ -304,6 +305,7 @@ const InvoiceForm = () => {
                     clearIcon={null}
                     format={"MM/dd/y"}
                     value={new Date(invoiceDate)}
+                    calendarIcon={<img src={calenderSvgIcon}></img>}
                     onChange={(date) => {
                       handleInputData("invoiceDate", date);
                     }}
@@ -314,6 +316,7 @@ const InvoiceForm = () => {
                   <DateTimePicker
                     clearIcon={null}
                     format={"MM/dd/y"}
+                    calendarIcon={<img src={calenderSvgIcon}></img>}
                     value={new Date(dueDate)}
                     onChange={(date) => {
                       handleInputData("dueDate", date);

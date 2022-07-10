@@ -165,6 +165,16 @@ const InputBlock = styled.div`
   }
   .react-datetime-picker {
     width: 188px;
+    height: 34px;
+    font-size: 14px;
+  }
+  .react-datetime-picker__calendar-button {
+    padding: 0;
+    display: flex;
+    img {
+      width: 18px;
+      height: 18px;
+    }
   }
   .date-picker {
     padding: 8px 12px;
@@ -173,6 +183,7 @@ const InputBlock = styled.div`
   }
   .react-datetime-picker__wrapper {
     padding: 8px;
+    align-items: center;
     border: 1px solid var(--border);
   }
   .react-datepicker-wrapper {
