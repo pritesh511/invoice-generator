@@ -416,6 +416,7 @@ const InvoiceForm = () => {
                           <Td>
                             <img
                               src={closeIcon}
+                              style={{ cursor: "pointer" }}
                               onClick={() => {
                                 removeRow(index);
                               }}

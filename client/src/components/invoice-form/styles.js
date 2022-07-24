@@ -47,7 +47,7 @@ const InvoiceTopLeft = styled.div`
   }
 `;
 const AddLogo = styled.div`
-  /* width: 267px; */
+  max-width: 400px;
   height: 133px;
   background-color: #ffffff;
   border: 1px solid #9f9a9a;
