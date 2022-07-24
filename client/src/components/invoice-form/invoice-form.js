@@ -36,6 +36,7 @@ import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
 import calenderSvgIcon from "../../assets/images/calendar.svg";
+import closeIcon from "../../assets/images/red-close.svg";
 
 const InvoiceForm = () => {
   const [invoice, setInvoice] = useState({
@@ -366,6 +367,7 @@ const InvoiceForm = () => {
                       <Th>Qty</Th>
                       <Th>Rate</Th>
                       <Th>Amount</Th>
+                      <Th className="Closeicon"></Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -409,6 +411,14 @@ const InvoiceForm = () => {
                               placeholder="Amount"
                               readOnly={true}
                               value={items[index]?.amount}
+                            />
+                          </Td>
+                          <Td>
+                            <img
+                              src={closeIcon}
+                              onClick={() => {
+                                removeRow(index);
+                              }}
                             />
                           </Td>
                         </Tr>

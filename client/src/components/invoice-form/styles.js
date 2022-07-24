@@ -310,6 +310,9 @@ const Th = styled.th`
     text-align: center;
     min-width: 10px;
   }
+  &.Closeicon {
+    min-width: 15px;
+  }
   @media only screen and (max-width: 991px) {
     min-width: 200px;
   }
