@@ -5,12 +5,22 @@ const InvoiceContainer = styled.div`
 `;
 const Form = styled.form`
   padding: 30px;
+
+  @media only screen and (max-width: 768px) {
+    padding: 15px;
+  }
 `;
 const InvoiceUpperForm = styled.div``;
 const InvoiceBottomBtn = styled.div`
   padding: 10px 0;
   display: flex;
   justify-content: flex-end;
+  @media only screen and (max-width: 768px) {
+    justify-content: left;
+  }
+  @media only screen and (max-width: 479px) {
+    width: 100%;
+  }
 `;
 const InvoiceFlex = styled.div`
   padding: 24px 0;
@@ -23,13 +33,21 @@ const InvoiceFlex = styled.div`
     border-top: 2px solid var(--yellow);
     border-bottom: 2px solid var(--yellow);
   }
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 12px 0px;
+  }
 `;
 const InvoiceTopLeft = styled.div`
   width: 100%;
   text-align: left;
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 const AddLogo = styled.div`
-  width: 267px;
+  /* width: 267px; */
   height: 133px;
   background-color: #ffffff;
   border: 1px solid #9f9a9a;
@@ -56,10 +74,17 @@ const AddLogo = styled.div`
     z-index: -1;
     display: none;
   }
+  @media only screen and (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 const InvoiceTopRight = styled.div`
   width: 100%;
   text-align: right;
+  margin-top: 10px;
+  @media only screen and (max-width: 768px) {
+    text-align: inherit;
+  }
 `;
 const ComponyInfo = styled.div``;
 const CompanyName = styled.div`
@@ -77,6 +102,7 @@ const CompanyName = styled.div`
     height: auto;
     width: 100%;
     text-transform: capitalize;
+
     :focus {
       outline: none;
       box-shadow: none;
@@ -120,6 +146,9 @@ const CompanyAddress = styled.div`
       box-shadow: none;
       border: 1px solid var(--yellow);
     }
+    @media only screen and (max-width: 768px) {
+      width: auto;
+    }
   }
 `;
 const ToCompanyAddress = styled.div`
@@ -150,6 +179,12 @@ const ToCompanyAddress = styled.div`
       outline: none;
       box-shadow: none;
       border: 1px solid var(--yellow);
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    span {
+      margin: 0px 0px 14px 0px;
     }
   }
 `;
@@ -188,6 +223,11 @@ const InputBlock = styled.div`
   }
   .react-datepicker-wrapper {
     width: auto;
+  }
+  @media only screen and (max-width: 768px) {
+    &.flex-end {
+      justify-content: flex-start;
+    }
   }
 `;
 const TotalSpan = styled.div`
@@ -242,6 +282,10 @@ const Input = styled.input`
 `;
 const InvoiceTableBlock = styled.div`
   width: 100%;
+
+  @media only screen and (max-width: 768px) {
+    overflow: auto;
+  }
 `;
 const InvoiceTable = styled.table`
   width: 100%;
@@ -264,6 +308,10 @@ const Th = styled.th`
   text-align: left;
   &.first {
     text-align: center;
+    min-width: 10px;
+  }
+  @media only screen and (max-width: 991px) {
+    min-width: 200px;
   }
 `;
 const Td = styled.td`
@@ -291,11 +339,12 @@ const AddRowBtn = styled.button`
 `;
 const TextArea = styled.textarea`
   padding: 12px;
+  border-radius: 3px;
   font-size: 16px;
   line-height: 18px;
   resize: none;
-  border: 1px solid transparent;
-  width: 100%;
+  border: 1px solid #9f9a9a;
+  width: -webkit-fill-available;
   height: 129px;
   font-family: "Poppins", sans-serif;
   :focus {
@@ -308,6 +357,10 @@ const TotalAmount = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  @media only screen and (max-width: 768px) {
+    justify-content: left;
+  }
 `;
 const DownLoadButton = styled.button`
   font-size: 15px;
@@ -320,6 +373,10 @@ const DownLoadButton = styled.button`
   border: none;
   box-shadow: none;
   outline: none;
+
+  @media only screen and (max-width: 768px) {
+    width: inherit;
+  }
 `;
 const CrossIcon = styled.td`
   width: 12px;
