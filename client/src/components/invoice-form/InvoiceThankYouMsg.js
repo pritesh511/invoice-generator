@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     marginTop: 12,
+    justifyContent: "center",
+    alignContent: "center",
   },
   reportTitle: {
     fontSize: 12,

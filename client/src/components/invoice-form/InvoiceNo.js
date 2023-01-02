@@ -29,7 +29,6 @@ const InvoiceNo = ({ invoice }) => (
         <Text style={styles.billTo}>Bill From:</Text>
         <Text>{invoice.fromCompanyName}</Text>
         <Text style={styles.companyAdd}>{invoice.companyAdd}</Text>
-        <Text>{invoice.invoice_number}</Text>
       </View>
     </View>
   </Fragment>
