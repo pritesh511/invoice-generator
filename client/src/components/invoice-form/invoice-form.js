@@ -37,6 +37,9 @@ import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
 import calenderSvgIcon from "../../assets/images/calendar.svg";
 import closeIcon from "../../assets/images/red-close.svg";
+import MyDocument from "../../document";
+import { PDFViewer } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 
 const InvoiceForm = () => {
   const [invoice, setInvoice] = useState({
@@ -225,20 +228,38 @@ const InvoiceForm = () => {
       );
     });
 
-  // const HOST = "http://localhost:4000";
-
-  const submitInvoice = (e) => {
+  const submitInvoice = async (e) => {
     e.preventDefault();
-    axios
-      .post(`/create-pdf`, invoice)
-      .then((res) => {
-        console.warn(res);
-      })
-      .then(() => axios.get(`/fetch-pdf`, { responseType: "blob" }))
-      .then((res) => {
-        const pdfBolb = new Blob([res?.data], { type: "application/pdf" });
-        saveAs(pdfBolb, "newInvoice.pdf");
-      });
+    const doc = <MyDocument invoice={invoice} />;
+    const asPdf = pdf([]); // {} is important, throws without an argument
+    asPdf.updateContainer(doc);
+    const blob = await asPdf.toBlob();
+    saveAs(blob, "document.pdf");
+    setInvoice({
+      invoiceName: "Invoice",
+      fromCompanyName: "Abc company Pvt Ltd",
+      toCompanyName: "xyz company Pvt Ltd",
+      companyLogo: "",
+      companyAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      toAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      invoiceDate: new Date(),
+      dueDate: new Date(),
+      poNumber: "",
+      invoice_number: "",
+      subTotal: "",
+      cgst: "",
+      sgst: "",
+      discount: "",
+      tempAmountTotal: "",
+      payAmount: "",
+      amountTotal: "",
+      notes: "",
+      items: [
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+      ],
+    });
   };
 
   return (
