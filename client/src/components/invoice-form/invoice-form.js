@@ -176,7 +176,7 @@ const InvoiceForm = () => {
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { tempAmountTotal, cgst } = newInvoice;
       const cgst_value = (Number(tempAmountTotal) * Number(cgst)) / 100;
-      const temp_total = tempAmountTotal + cgst_value;
+      const temp_total = Number(tempAmountTotal) + cgst_value;
       newInvoice.amountTotal = Number.parseFloat(temp_total).toFixed(2);
       newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
       setInvoice(newInvoice);
@@ -190,7 +190,7 @@ const InvoiceForm = () => {
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { amountTotal, tempAmountTotal, sgst } = newInvoice;
       const sgst_value = (Number(tempAmountTotal) * Number(sgst)) / 100;
-      const temp_total = amountTotal + sgst_value;
+      const temp_total = Number(amountTotal) + sgst_value;
       newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
 
       setInvoice(newInvoice);
@@ -549,7 +549,7 @@ const InvoiceForm = () => {
                   ></InputText>
                 </InputBlock>
                 <TotalAmount>
-                  <Label>Total Amount</Label>
+                  <Label style={{ width: "50%" }}>Total Amount</Label>
                   <TotalSpan>{payAmount ? payAmount : "0000"}</TotalSpan>
                 </TotalAmount>
               </InvoiceTopRight>
