@@ -5,6 +5,8 @@ import InvoiceNo from "./components/invoice-form/InvoiceNo";
 import BillTo from "./components/invoice-form/BillTo";
 import InvoiceItemsTable from "./components/invoice-form/InvoiceTable/InvoiceItemsTable";
 import InvoiceThankYouMsg from "./components/invoice-form/InvoiceThankYouMsg";
+import InvoceNote from "./components/invoice-form/InvoiceNote";
+import InvoiceTopHeader from "./components/invoice-form/InvoiceTable/InvoiceTopHeader";
 
 // Create styles
 const styles = StyleSheet.create({
@@ -18,10 +20,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   logo: {
-    width: 74,
-    height: 66,
-    marginLeft: "auto",
-    marginRight: "auto",
+    width: 60,
+    height: 60,
   },
 });
 
@@ -34,9 +34,11 @@ const MyDocument = ({ invoice }) => {
           <Image style={styles.logo} src={invoice.companyLogo} />
         )}
         <InvoiceTitle title={invoice.invoiceName} />
+        <InvoiceTopHeader invoice={invoice} />
         <InvoiceNo invoice={invoice} />
         <BillTo invoice={invoice} />
         <InvoiceItemsTable invoice={invoice} />
+        {invoice?.notes && <InvoceNote invoice={invoice} />}
         <InvoiceThankYouMsg />
       </Page>
     </Document>

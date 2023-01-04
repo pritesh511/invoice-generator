@@ -28,6 +28,7 @@ const InvoiceFlex = styled.div`
   align-items: center;
   &.invoice-table {
     width: 100%;
+    overflow: auto;
   }
   &.border {
     border-top: 2px solid var(--yellow);
@@ -139,7 +140,6 @@ const CompanyAddress = styled.div`
     font-weight: 500;
     color: var(--dark);
     display: inline-block;
-    width: 50%;
     font-family: "Poppins", sans-serif;
     :focus {
       outline: none;
@@ -152,11 +152,10 @@ const CompanyAddress = styled.div`
   }
 `;
 const ToCompanyAddress = styled.div`
-  width: 55%;
   margin-left: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   span {
     margin: 0 0 14px 8px;
     font-size: 18px;
@@ -183,8 +182,9 @@ const ToCompanyAddress = styled.div`
   }
   @media only screen and (max-width: 768px) {
     width: 100%;
+    align-items: flex-start;
     span {
-      margin: 0px 0px 14px 0px;
+      margin: 0px 0px 14px 8px;
     }
   }
 `;
@@ -273,7 +273,7 @@ const Input = styled.input`
   width: 100%;
   padding: 6px;
   border-radius: 3px;
-  border: 1px solid transparent;
+  border: 1px solid var(--yellow);
   :focus {
     box-shadow: none;
     outline: none;
@@ -397,9 +397,22 @@ const CrossIcon = styled.td`
 const ToAddBottom = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   width: 100%;
+  input {
+    text-align: right;
+  }
   textarea {
+    text-align: right;
     width: -webkit-fill-available;
+  }
+  @media only screen and (max-width: 768px) {
+    input {
+      text-align: left;
+    }
+    textarea {
+      text-align: left;
+    }
   }
 `;
 

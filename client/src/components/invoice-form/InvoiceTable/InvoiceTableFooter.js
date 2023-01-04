@@ -33,12 +33,14 @@ const InvoiceTableFooter = ({ invoice }) => {
   return (
     <Fragment>
       <View style={styles.bottomFooter}>
-        <View style={styles.row}>
-          <Text style={styles.description}>Sub Total:</Text>
-          <Text style={styles.total}>
-            {Number.parseFloat(invoice?.subTotal).toFixed(2)}
-          </Text>
-        </View>
+        {invoice?.subTotal && (
+          <View style={styles.row}>
+            <Text style={styles.description}>Sub Total:</Text>
+            <Text style={styles.total}>
+              {Number.parseFloat(invoice?.subTotal).toFixed(2)}
+            </Text>
+          </View>
+        )}
         {invoice?.discount && (
           <View style={styles.row}>
             <Text style={styles.description}>Discount(%):</Text>
@@ -57,12 +59,14 @@ const InvoiceTableFooter = ({ invoice }) => {
             <Text style={styles.total}>{invoice?.sgst}</Text>
           </View>
         )}
-        <View style={styles.row}>
-          <Text style={styles.description}>Total:</Text>
-          <Text style={styles.total}>
-            {Number.parseFloat(invoice?.payAmount).toFixed(2)}
-          </Text>
-        </View>
+        {invoice?.payAmount && (
+          <View style={styles.row}>
+            <Text style={styles.description}>Total:</Text>
+            <Text style={styles.total}>
+              {Number.parseFloat(invoice?.payAmount).toFixed(2)}
+            </Text>
+          </View>
+        )}
       </View>
     </Fragment>
   );

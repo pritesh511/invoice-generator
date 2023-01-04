@@ -4,15 +4,15 @@ import { Text, View, StyleSheet } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: 24,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
+    marginTop: 14,
   },
   reportTitle: {
     color: "#ff9100",
-    letterSpacing: 4,
+    letterSpacing: 2,
     fontSize: 25,
-    textAlign: "center",
+    textAlign: "left",
     textTransform: "uppercase",
   },
 });

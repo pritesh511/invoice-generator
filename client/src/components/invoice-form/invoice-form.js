@@ -259,12 +259,42 @@ const InvoiceForm = () => {
         { item: "", qty: "", rate: "", amount: "" },
       ],
     });
+    setImageName("Company Logo Upload");
+  };
+
+  const cancelAllChanges = (e) => {
+    e.preventDefault();
+    setInvoice({
+      invoiceName: "Invoice",
+      fromCompanyName: "Abc company Pvt Ltd",
+      toCompanyName: "xyz company Pvt Ltd",
+      companyLogo: "",
+      companyAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      toAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      invoiceDate: new Date(),
+      dueDate: new Date(),
+      poNumber: "",
+      invoice_number: "",
+      subTotal: "",
+      cgst: "",
+      sgst: "",
+      discount: "",
+      tempAmountTotal: "",
+      payAmount: "",
+      amountTotal: "",
+      notes: "",
+      items: [
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+      ],
+    });
   };
 
   return (
     <>
       <InvoiceContainer>
-        <Form onSubmit={submitInvoice}>
+        <Form>
           <InvoiceUpperForm>
             <InvoiceFlex>
               <InvoiceTopLeft>
@@ -513,7 +543,13 @@ const InvoiceForm = () => {
             </InvoiceFlex>
           </InvoiceUpperForm>
           <InvoiceBottomBtn>
-            <DownLoadButton>Download</DownLoadButton>
+            <DownLoadButton
+              onClick={cancelAllChanges}
+              style={{ marginRight: "10px" }}
+            >
+              Cancel
+            </DownLoadButton>
+            <DownLoadButton onClick={submitInvoice}>Download</DownLoadButton>
           </InvoiceBottomBtn>
         </Form>
       </InvoiceContainer>
