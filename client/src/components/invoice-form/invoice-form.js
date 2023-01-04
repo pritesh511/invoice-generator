@@ -42,6 +42,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { pdf } from "@react-pdf/renderer";
 
 const InvoiceForm = () => {
+  const [imageName, setImageName] = useState("Company Logo Upload");
   const [invoice, setInvoice] = useState({
     invoiceName: "Invoice",
     fromCompanyName: "Abc company Pvt Ltd",
@@ -200,11 +201,10 @@ const InvoiceForm = () => {
     [invoice]
   );
 
-  console.log("invoice", invoice);
-
   const onChangeLogo = useCallback(
     (e) => {
       const value = e.target.files[0];
+      setImageName(value.name);
       resizeFile(value);
     },
     [invoice]
@@ -220,7 +220,6 @@ const InvoiceForm = () => {
         100,
         0,
         (uri) => {
-          console.log("uri", uri);
           resolve(uri);
           handleInputData("companyLogo", uri);
         },
@@ -296,7 +295,7 @@ const InvoiceForm = () => {
               </InvoiceTopLeft>
               <InvoiceTopRight>
                 <AddLogo>
-                  <label htmlFor="upload-file">Company Logo Upload</label>
+                  <label htmlFor="upload-file">{imageName}</label>
                   <input
                     type="file"
                     id="upload-file"
