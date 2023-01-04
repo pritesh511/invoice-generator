@@ -25,20 +25,17 @@ import {
   TextArea,
   TotalAmount,
   DownLoadButton,
-  CrossIcon,
   TotalSpan,
   ToCompanyAddress,
   CompanyNameInput,
   ToAddBottom,
 } from "./styles";
 import DateTimePicker from "react-datetime-picker";
-import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
 import calenderSvgIcon from "../../assets/images/calendar.svg";
 import closeIcon from "../../assets/images/red-close.svg";
 import MyDocument from "../../document";
-import { PDFViewer } from "@react-pdf/renderer";
 import { pdf } from "@react-pdf/renderer";
 
 const InvoiceForm = () => {
@@ -129,7 +126,7 @@ const InvoiceForm = () => {
       const sub_total = items?.reduce(function (a, b) {
         return a + Number(b?.amount);
       }, 0);
-      newInvoice.subTotal = sub_total;
+      newInvoice.subTotal = Number.parseFloat(sub_total).toFixed(2);
       setInvoice(newInvoice);
       handleDicount(newInvoice);
     },
@@ -165,9 +162,9 @@ const InvoiceForm = () => {
       const { subTotal, discount } = newInvoice;
       const discount_value = (Number(subTotal) * Number(discount)) / 100;
       const temp_total = Number(subTotal) - discount_value;
-      newInvoice.amountTotal = temp_total;
-      newInvoice.tempAmountTotal = temp_total;
-      newInvoice.payAmount = temp_total;
+      newInvoice.amountTotal = Number.parseFloat(temp_total).toFixed(2);
+      newInvoice.tempAmountTotal = Number.parseFloat(temp_total).toFixed(2);
+      newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
       setInvoice(newInvoice);
       cgstTaxCount(newInvoice);
     },
@@ -180,8 +177,8 @@ const InvoiceForm = () => {
       const { tempAmountTotal, cgst } = newInvoice;
       const cgst_value = (Number(tempAmountTotal) * Number(cgst)) / 100;
       const temp_total = tempAmountTotal + cgst_value;
-      newInvoice.amountTotal = temp_total;
-      newInvoice.payAmount = temp_total;
+      newInvoice.amountTotal = Number.parseFloat(temp_total).toFixed(2);
+      newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
       setInvoice(newInvoice);
       sgstTaxCount(newInvoice);
     },
@@ -194,7 +191,7 @@ const InvoiceForm = () => {
       const { amountTotal, tempAmountTotal, sgst } = newInvoice;
       const sgst_value = (Number(tempAmountTotal) * Number(sgst)) / 100;
       const temp_total = amountTotal + sgst_value;
-      newInvoice.payAmount = temp_total;
+      newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
 
       setInvoice(newInvoice);
     },
@@ -325,7 +322,18 @@ const InvoiceForm = () => {
               </InvoiceTopLeft>
               <InvoiceTopRight>
                 <AddLogo>
-                  <label htmlFor="upload-file">{imageName}</label>
+                  <label htmlFor="upload-file">
+                    {companyLogo && (
+                      <img
+                        width={30}
+                        height={30}
+                        style={{ margin: "0 6px 0 0" }}
+                        src={companyLogo}
+                        alt="logo"
+                      />
+                    )}
+                    {imageName}
+                  </label>
                   <input
                     type="file"
                     id="upload-file"
@@ -356,7 +364,9 @@ const InvoiceForm = () => {
                     clearIcon={null}
                     format={"MM/dd/y"}
                     value={new Date(invoiceDate)}
-                    calendarIcon={<img src={calenderSvgIcon}></img>}
+                    calendarIcon={
+                      <img src={calenderSvgIcon} alt="calendarIcon"></img>
+                    }
                     onChange={(date) => {
                       handleInputData("invoiceDate", date);
                     }}
@@ -367,7 +377,9 @@ const InvoiceForm = () => {
                   <DateTimePicker
                     clearIcon={null}
                     format={"MM/dd/y"}
-                    calendarIcon={<img src={calenderSvgIcon}></img>}
+                    calendarIcon={
+                      <img src={calenderSvgIcon} alt="calenderSvgIcon"></img>
+                    }
                     value={new Date(dueDate)}
                     onChange={(date) => {
                       handleInputData("dueDate", date);
@@ -466,6 +478,7 @@ const InvoiceForm = () => {
                           <Td>
                             <img
                               src={closeIcon}
+                              alt="closeIcon"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
                                 removeRow(index);
