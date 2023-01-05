@@ -56,7 +56,7 @@ const InvoiceForm = () => {
     sgst: "",
     discount: "",
     tempAmountTotal: "",
-    payAmount: "",
+    payAmount: "000",
     amountTotal: "",
     notes: "",
     items: [
@@ -247,7 +247,7 @@ const InvoiceForm = () => {
       sgst: "",
       discount: "",
       tempAmountTotal: "",
-      payAmount: "",
+      payAmount: "000",
       amountTotal: "",
       notes: "",
       items: [
@@ -277,7 +277,7 @@ const InvoiceForm = () => {
       sgst: "",
       discount: "",
       tempAmountTotal: "",
-      payAmount: "",
+      payAmount: "000",
       amountTotal: "",
       notes: "",
       items: [

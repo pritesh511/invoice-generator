@@ -3,70 +3,96 @@ import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 // const borderColor = "#ff9100";
 const styles = StyleSheet.create({
-  row: {
+  FooterContainer: {
+    padding: 20,
+  },
+  Row: {
     flexDirection: "row",
-    // borderBottomColor: "#ff9100",
-    // borderBottomWidth: 1,
+    justifyContent: "space-between",
+  },
+  LeftCol: {
+    width: "40%",
+  },
+  RightCol: {
+    width: "30%",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+  },
+  Notes: {
+    fontSize: 10,
+    fontWeight: "extrabold",
+    color: "rgb(148, 156, 172)",
+  },
+  InnerCol: {
+    flexDirection: "row",
     alignItems: "center",
-    height: 24,
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  LastCol: {
+    paddingTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderTopColor: "#ff9100",
+    borderTopWidth: 1,
+  },
+  LeftText: {
     fontSize: 12,
-    fontStyle: "bold",
+    color: "rgb(148, 156, 172)",
+    marginRight: 5,
   },
-  description: {
-    width: "85%",
-    textAlign: "right",
-    // borderRightColor: borderColor,
-    // borderRightWidth: 1,
-    paddingRight: 8,
+  RightText: {
+    fontSize: 12,
+    color: "#000000",
   },
-  total: {
-    width: "15%",
-    textAlign: "right",
-    paddingRight: 8,
-  },
-  bottomFooter: {
-    marginTop: "20px",
+  NotesHead: {
+    fontSize: 12,
+    marginBottom: 6,
+    color: "#333333",
   },
 });
 
 const InvoiceTableFooter = ({ invoice }) => {
   return (
     <Fragment>
-      <View style={styles.bottomFooter}>
-        {invoice?.subTotal && (
-          <View style={styles.row}>
-            <Text style={styles.description}>Sub Total:</Text>
-            <Text style={styles.total}>
-              {Number.parseFloat(invoice?.subTotal).toFixed(2)}
-            </Text>
+      <View style={styles.FooterContainer}>
+        <View style={styles.Row}>
+          <View style={styles.LeftCol}>
+            <Text style={styles.NotesHead}>Notes:</Text>
+            <Text style={styles.Notes}>{invoice?.notes}</Text>
           </View>
-        )}
-        {invoice?.discount && (
-          <View style={styles.row}>
-            <Text style={styles.description}>Discount(%):</Text>
-            <Text style={styles.total}>{invoice?.discount}</Text>
+          <View style={styles.RightCol}>
+            <View style={styles.InnerCol}>
+              <Text style={styles.LeftText}>Sub Total:</Text>
+              <Text style={styles.RightText}>
+                {invoice?.subTotal ? invoice?.subTotal : 0}
+              </Text>
+            </View>
+            <View style={styles.InnerCol}>
+              <Text style={styles.LeftText}>Discount(%):</Text>
+              <Text style={styles.RightText}>
+                {invoice?.discount ? invoice?.discount : 0}
+              </Text>
+            </View>
+            <View style={styles.InnerCol}>
+              <Text style={styles.LeftText}>CGST(%):</Text>
+              <Text style={styles.RightText}>
+                {invoice?.cgst ? invoice?.cgst : 0}
+              </Text>
+            </View>
+            <View style={styles.InnerCol}>
+              <Text style={styles.LeftText}>SGST(%):</Text>
+              <Text style={styles.RightText}>
+                {invoice?.sgst ? invoice?.sgst : 0}
+              </Text>
+            </View>
+            <View style={styles.LastCol}>
+              <Text style={styles.LeftText}>Total(Rs):</Text>
+              <Text style={styles.RightText}>{invoice?.payAmount}</Text>
+            </View>
           </View>
-        )}
-        {invoice?.cgst && (
-          <View style={styles.row}>
-            <Text style={styles.description}>CGST(%):</Text>
-            <Text style={styles.total}>{invoice?.cgst}</Text>
-          </View>
-        )}
-        {invoice?.sgst && (
-          <View style={styles.row}>
-            <Text style={styles.description}>SGST(%):</Text>
-            <Text style={styles.total}>{invoice?.sgst}</Text>
-          </View>
-        )}
-        {invoice?.payAmount && (
-          <View style={styles.row}>
-            <Text style={styles.description}>Total:</Text>
-            <Text style={styles.total}>
-              {Number.parseFloat(invoice?.payAmount).toFixed(2)}
-            </Text>
-          </View>
-        )}
+        </View>
       </View>
     </Fragment>
   );

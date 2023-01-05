@@ -5,32 +5,34 @@ import { Text, View, StyleSheet } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderBottomColor: "#ff9100",
     backgroundColor: "#ff9100",
-    borderBottomWidth: 1,
     alignItems: "center",
-    height: 24,
-    textAlign: "center",
+    height: 30,
     fontStyle: "bold",
-    flexGrow: 1,
   },
   description: {
     width: "60%",
-    // borderRightColor: borderColor,
-    // borderRightWidth: 1,
+    padding: 6,
+    fontSize: 12,
+    textAlign: "left",
   },
   qty: {
     width: "10%",
-    // borderRightColor: borderColor,
-    // borderRightWidth: 1,
+    padding: 6,
+    fontSize: 12,
+    textAlign: "left",
   },
   rate: {
     width: "15%",
-    // borderRightColor: borderColor,
-    // borderRightWidth: 1,
+    padding: 6,
+    fontSize: 12,
+    textAlign: "left",
   },
   amount: {
     width: "15%",
+    padding: 6,
+    fontSize: 12,
+    textAlign: "left",
   },
 });
 
