@@ -87,7 +87,7 @@ const InvoicePdfMiddle = ({ invoice }) => {
             </Text>
           </View>
           <View style={styles.InnerCol}>
-            <Text style={styles.HeadText}>Po Number:</Text>
+            <Text style={styles.HeadText}>Mo Number:</Text>
             <Text style={styles.Value}>
               {invoice?.poNumber ? `${invoice?.poNumber}` : "00"}
             </Text>

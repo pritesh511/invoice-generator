@@ -387,7 +387,7 @@ const InvoiceForm = () => {
                   />
                 </InputBlock>
                 <InputBlock>
-                  <Label>Po Number</Label>
+                  <Label>Mo Number</Label>
                   <InputText
                     type="text"
                     placeholder="Po Number"

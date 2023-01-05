@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 const InvoiceContainer = styled.div`
   width: 100%;
+  max-width: 1140px;
+  margin: auto;
 `;
 const Form = styled.form`
   padding: 30px;
@@ -157,7 +159,7 @@ const ToCompanyAddress = styled.div`
   flex-direction: column;
   align-items: flex-end;
   span {
-    margin: 0 0 14px 8px;
+    margin: 0 8px 14px 8px;
     font-size: 18px;
     color: var(--gray);
     font-weight: 600;
