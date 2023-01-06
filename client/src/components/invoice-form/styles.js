@@ -2,13 +2,16 @@ import styled from "styled-components";
 
 const InvoiceContainer = styled.div`
   width: 100%;
-  max-width: 1140px;
+  max-width: 991px;
   margin: auto;
 `;
 const Form = styled.form`
   padding: 30px;
-
-  @media only screen and (max-width: 768px) {
+  background: #f9f9f9;
+  box-shadow: 1px 2px 5px #c1c1c1cc;
+  margin: 50px 20px;
+  border-radius: 10px;
+  overflow: hidden @media only screen and (max-width: 768px) {
     padding: 15px;
   }
 `;
