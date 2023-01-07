@@ -35,6 +35,7 @@ import Resizer from "react-image-file-resizer";
 import { saveAs } from "file-saver";
 import calenderSvgIcon from "../../assets/images/calendar.svg";
 import closeIcon from "../../assets/images/red-close.svg";
+import printIcon from "../../assets/images/printer.png";
 import MyDocument from "../../document";
 import { pdf } from "@react-pdf/renderer";
 
@@ -286,6 +287,45 @@ const InvoiceForm = () => {
         { item: "", qty: "", rate: "", amount: "" },
       ],
     });
+  };
+
+  const printInvoice = async (e) => {
+    e.preventDefault();
+    const doc = <MyDocument invoice={invoice} />;
+    const asPdf = pdf([]); // {} is important, throws without an argument
+    asPdf.updateContainer(doc);
+    const blob = await asPdf.toBlob();
+    const dataUrl = window.URL.createObjectURL(blob);
+    // Open the window
+    const pdfWindow = window.open(dataUrl);
+    // Call print on it
+    pdfWindow.print();
+    setInvoice({
+      invoiceName: "Invoice",
+      fromCompanyName: "Abc company Pvt Ltd",
+      toCompanyName: "xyz company Pvt Ltd",
+      companyLogo: "",
+      companyAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      toAdd: "304, krishn Twonship, dabholi road, katargam, surat, 395004",
+      invoiceDate: new Date(),
+      dueDate: new Date(),
+      poNumber: "",
+      invoice_number: "",
+      subTotal: "",
+      cgst: "",
+      sgst: "",
+      discount: "",
+      tempAmountTotal: "",
+      payAmount: "000",
+      amountTotal: "",
+      notes: "",
+      items: [
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+        { item: "", qty: "", rate: "", amount: "" },
+      ],
+    });
+    setImageName("Company Logo Upload");
   };
 
   return (
@@ -561,6 +601,13 @@ const InvoiceForm = () => {
               style={{ marginRight: "10px" }}
             >
               Cancel
+            </DownLoadButton>
+            <DownLoadButton
+              onClick={printInvoice}
+              style={{ marginRight: "10px" }}
+            >
+              {/* <img width={26} height={26} src={printIcon} alt="printIcon" /> */}
+              Print
             </DownLoadButton>
             <DownLoadButton onClick={submitInvoice}>Download</DownLoadButton>
           </InvoiceBottomBtn>
