@@ -56,6 +56,9 @@ const InvoiceForm = () => {
     cgst: "",
     sgst: "",
     discount: "",
+    discountValue: "",
+    cgstValue: "",
+    sgstValue: "",
     tempAmountTotal: "",
     payAmount: "000",
     amountTotal: "",
@@ -162,6 +165,8 @@ const InvoiceForm = () => {
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { subTotal, discount } = newInvoice;
       const discount_value = (Number(subTotal) * Number(discount)) / 100;
+      newInvoice["discountValue"] =
+        Number.parseFloat(discount_value).toFixed(2);
       const temp_total = Number(subTotal) - discount_value;
       newInvoice.amountTotal = Number.parseFloat(temp_total).toFixed(2);
       newInvoice.tempAmountTotal = Number.parseFloat(temp_total).toFixed(2);
@@ -177,6 +182,7 @@ const InvoiceForm = () => {
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { tempAmountTotal, cgst } = newInvoice;
       const cgst_value = (Number(tempAmountTotal) * Number(cgst)) / 100;
+      newInvoice["cgstValue"] = Number.parseFloat(cgst_value).toFixed(2);
       const temp_total = Number(tempAmountTotal) + cgst_value;
       newInvoice.amountTotal = Number.parseFloat(temp_total).toFixed(2);
       newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
@@ -191,6 +197,7 @@ const InvoiceForm = () => {
       const newInvoice = JSON.parse(JSON.stringify(invoice));
       const { amountTotal, tempAmountTotal, sgst } = newInvoice;
       const sgst_value = (Number(tempAmountTotal) * Number(sgst)) / 100;
+      newInvoice["sgstValue"] = Number.parseFloat(sgst_value).toFixed(2);
       const temp_total = Number(amountTotal) + sgst_value;
       newInvoice.payAmount = Number.parseFloat(temp_total).toFixed(2);
 
@@ -247,6 +254,9 @@ const InvoiceForm = () => {
       cgst: "",
       sgst: "",
       discount: "",
+      discountValue: "",
+      cgstValue: "",
+      sgstValue: "",
       tempAmountTotal: "",
       payAmount: "000",
       amountTotal: "",
@@ -277,6 +287,9 @@ const InvoiceForm = () => {
       cgst: "",
       sgst: "",
       discount: "",
+      discountValue: "",
+      cgstValue: "",
+      sgstValue: "",
       tempAmountTotal: "",
       payAmount: "000",
       amountTotal: "",
@@ -327,6 +340,8 @@ const InvoiceForm = () => {
     });
     setImageName("Company Logo Upload");
   };
+
+  console.log(invoice);
 
   return (
     <>
@@ -565,6 +580,11 @@ const InvoiceForm = () => {
                       handleInputData("discount", e.target.value);
                     }}
                   ></InputText>
+                  <InputText
+                    type="text"
+                    readOnly={true}
+                    value={invoice?.discountValue}
+                  ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
                   <Label>CGST(%)</Label>
@@ -576,6 +596,11 @@ const InvoiceForm = () => {
                       handleInputData("cgst", e.target.value);
                     }}
                   ></InputText>
+                  <InputText
+                    type="text"
+                    readOnly={true}
+                    value={invoice?.cgstValue}
+                  ></InputText>
                 </InputBlock>
                 <InputBlock className="flex-end">
                   <Label>SGST(%)</Label>
@@ -586,6 +611,11 @@ const InvoiceForm = () => {
                     onChange={(e) => {
                       handleInputData("sgst", e.target.value);
                     }}
+                  ></InputText>
+                  <InputText
+                    type="text"
+                    readOnly={true}
+                    value={invoice?.sgstValue}
                   ></InputText>
                 </InputBlock>
                 <TotalAmount>
@@ -600,7 +630,7 @@ const InvoiceForm = () => {
               onClick={cancelAllChanges}
               style={{ marginRight: "10px" }}
             >
-              Cancel
+              Clear
             </DownLoadButton>
             <DownLoadButton
               onClick={printInvoice}
