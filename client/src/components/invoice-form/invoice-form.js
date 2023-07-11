@@ -445,7 +445,7 @@ const InvoiceForm = () => {
                   <Label>Mo Number</Label>
                   <InputText
                     type="text"
-                    placeholder="Po Number"
+                    placeholder="Mo Number"
                     value={poNumber}
                     onChange={(e) =>
                       handleInputData("poNumber", e.target.value)
